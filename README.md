@@ -11,6 +11,7 @@ Python, SQL을 활용한 다양한 프로젝트 경험을 기반으로 데이터
 - **기여도** : 90%
 - **프로그래밍 언어** : Python
 - **주요 패키지 및 라이브러리** : pandas, folium, haversine, geopandas, matplotlib, StandardScaler, scipy, numpy, pulp
+- [**사용 데이터**](https://github.com/hyoin28/project1/tree/main/data)
 - [**전체코드 링크**](https://github.com/hyoin28/project1/blob/main/%EC%A0%9C%EC%A3%BC%EC%8B%9C%20%EC%A0%84%EA%B8%B0%EC%B0%A8%EC%B6%A9%EC%A0%84%EC%86%8C%20%EC%B5%9C%EC%A0%81%EC%9E%85%EC%A7%80%20%EC%84%A0%EC%A0%95%20%EB%AA%A8%EB%8D%B8.ipynb)
 
 ## (1) 데이터 가공 및 정제
@@ -273,4 +274,143 @@ query = '''
     WHERE R.rating >= 8;
     '''
 ```
+# Project 3
+- **프로젝트명** : CGV 현재상영작 정보 DB 구현
+- **프로젝트 목적** : 2025년 애니메이션 영화의 흥행으로 다시 부흥했던 영화산업을 보며 사람들이 어떤 영화를 선호하는지 데이터기반으로 정확히 알아보기 위함
+- **기간** : 2025.01.04 ~ 2025.01.10
+- **참여인원** : 1명(개인프로젝트)
+- **프로그래밍 언어** : Python, SQL
+- **주요 패키지 및 라이브러리** : selenium, pandas, sqlalchemy
+- [**전체코드 링크**](https://github.com/hyoin28/project3/blob/main/cgv_%ED%81%AC%EB%A1%A4%EB%A7%81.ipynb)
+
+## (1) CGV 홈페이지상의 현재상영작 세부정보들을 동적 웹크롤링하여 데이터 수집 - Selenium
+- 추출데이터 : 영화 제목, 예매순위, 예매율, 누적관객수, 에그지수
+
+<코드 일부예시>
+```python
+#각 영화의 데이터 추출
+data = [] #데이터들을 담을 빈 리스트 생성
+
+for i in range(m_count) :
+    boxes = driver.find_elements(By.CLASS_NAME, 'bestChartList_chartItem__bJ0PK')  #각 영화의 정보를 담고있는 박스들(35개의 박스들)
+    box = boxes[i] #각 영화 박스
+    btn = box.find_element(By.CSS_SELECTOR, 'button.btn.btn-md.line-gray') #box안의 '상세보기' 버튼 찾기
+    driver.execute_script(
+        "arguments[0].scrollIntoView({block: 'center'});", btn
+    ) #버튼을 화면 중앙으로 스크롤하여 위치시킴(클릭실패 예방)
+    time.sleep(0.5) #스크롤 후 대기
+    old_url = driver.current_url #클릭 전 현재 url저장
+    driver.execute_script("arguments[0].click();", btn) #JavaScript로 강제클릭
+    wait.until(EC.url_changes(old_url)) #현재 url과 다른 url이 될때 까지 기다림
+
+    #영화제목
+    title = t(By.CLASS_NAME, 'cnms01020_movieName__XiCWf')
+    #영화 장르
+    genre = movie_genre()
+    #예매율 순위
+    rank = list(movie_info().keys())[0]
+    #예매율
+    ratio = list(movie_info().values())[0]
+    #누적관객수
+    aud = movie_info()['누적관객수']
+    #에그지수
+    egg = movie_info()['에그지수']
+    
+    data.append([title, genre, rank, ratio, aud, egg])
+```
+
+## (2) 추출한 데이터 리스트를 데이터프레임으로 변환후 전처리
+<전처리 과정>
+- 예매 순위에서 숫자만 추출하기
+- 예매율/에그지수의 '%' 단위 없애기
+- 누적관객수에서 숫자만 남기고 '만' 단위로 통일하기
+
+<코드 일부예시>
+```python
+#예매율, 에그지수 '%' 단위 없애기
+movie_df['reservation_rate'] = list((movie_df['reservation_rate'].str.replace('%', '')).astype(float))
+
+lst_egg =[]
+for e in movie_df['egg']:
+    if e == '?' :
+        lst_egg.append(0)
+    else:
+        lst_egg.append(int(e.replace('%', '')))
+movie_df['egg'] = lst_egg
+```
+
+## (3) MySQL DB 생성 및 데이터 적재
+- SQLAlchemy 방식 사용
+```python
+#MySQL 서버 연결
+engine = create_engine(
+    f"mysql+pymysql://{user}:{password}@{host}?charset=utf8mb4",
+    echo=True
+)
+#DB 생성
+with engine.connect() as conn:
+    conn.execute(text('DROP DATABASE IF EXISTS CGV'))
+    conn.execute(text('CREATE DATABASE CGV'))
+    conn.commit()
+
+#CGV DB로 다시 연결
+engine = create_engine(
+    f"mysql+pymysql://{user}:{password}@{host}/{db_name}?charset=utf8mb4"
+)
+#테이블 생성
+create_table_sql = """
+CREATE TABLE IF NOT EXISTS CURRENT_MOVIE(
+    title VARCHAR(100),
+    genre VARCHAR(100),
+    reservation_rank INT,
+    reservation_rate FLOAT,
+    aud_count VARCHAR(100),
+    egg INT
+    );
+"""
+
+with engine.connect() as conn:
+    conn.execute(text(create_table_sql))
+    conn.commit()
+
+#데이터 삽입
+df = pd.read_csv('current_movie_data.csv', encoding='utf-8-sig')
+df.to_sql(name='current_movie',
+          con=engine, #DB연결객체, 내부적으로 mysql에 접속
+          if_exists='append', #테이블이 이미 존재할 경우 기존데이터 유지 후 뒤에 추가
+          index=False
+          )
+```
+
+## (4) 데이터분석 - 장르 선호도 알아보기
+<query 1>
+
+```sql
+SELECT genre, COUNT(*) as count, SUM(aud_count) as total_audience
+FROM cgv.current_movie
+GROUP BY genre
+ORDER BY total_audience DESC;
+```
+<img width="384" height="174" alt="Image" src="https://github.com/user-attachments/assets/38890756-2e76-4bd9-af97-3f776385d12f" />
+
+- 쿼리 출력결과 실제로 '애니메이션' 장르의 누적관객수가 가장 많은 것을 확인할 수 있음
+- '에니메이션' 장르의 영화개수가 많다는 것을 감안하더라도 '드라마' 장르와 비교하면 훨씬 선호도가 높다는 것을 알 수 있음
+
+<query 2>
+
+```sql
+SELECT genre, COUNT(*) as genre_count
+FROM (SELECT title, genre, reservation_rank
+FROM current_movie
+ORDER BY reservation_rank
+LIMIT 10) A
+GROUP BY genre
+ORDER BY genre_count DESC;
+```
+<img width="264" height="133" alt="Image" src="https://github.com/user-attachments/assets/8641fa5a-7e18-4356-944c-70f0b9fbffcc" />
+
+- '애니메이션' 장르 선호도가 높다는 것을 더 정확히 입증하기 위해 현재상영작 top10에서 장르별 개수를 출력하는 쿼리를 작성함
+- '애니메이션' 장르가 4개로 가장 많은 것을 확인할 수 있음
+
+
 

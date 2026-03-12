@@ -151,13 +151,14 @@ def mclp_with_pulp(points,P,S,sites,demand_weight):
 
 ## (1) 프로젝트에서 주어진 기업의 요구사항을 만족시키는 DB 구조 도식화
 - 테이블의 속성, 테이블간의 관계, 제약조건 등을 고려
+
 <**ER Diagram**>
 
 <img width="500" height="370" alt="Image" src="https://github.com/user-attachments/assets/adafd384-2c5a-4d27-9b10-fdf9e126d3a4" />
 
 <**Relational DB schema**>
 
-<img width="558" height="721" alt="Image" src="https://github.com/user-attachments/assets/a4922a97-85dc-4a2b-944b-e70828497b60" />
+<img width="372" height="480" alt="Image" src="https://github.com/user-attachments/assets/a4922a97-85dc-4a2b-944b-e70828497b60" />
 
 ## (2) mysql.connector로 Python과 MySQL을 연결하여 DataBase 생성 - CREATE DATABASE
 ```python

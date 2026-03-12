@@ -103,7 +103,7 @@ for i, j in zip(df_t['XCODE'], df_t['YCODE']):
 
 mymap
 ```
-<시각화 출력결과 예시>
+<시각화 출력결과 예시> - 전기차 충전소의 위치(검은색 점)와 교통량(히트맵)이 레이어링돼 표시된 모습
 
 <img width="500" height="250" alt="Image" src="https://github.com/user-attachments/assets/b5a6180a-d7e1-41eb-8714-23d4cd5ac6e4" />
 

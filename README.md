@@ -87,6 +87,6 @@ for i, j in zip(df_t['XCODE'], df_t['YCODE']):
 mymap
 ```
 <시각화 출력결과 예시>
-![image](C:\Users\Lenovo\Pictures\Screenshots\스크린샷 2026-03-12 134805.png)
+![image](충전소위치&교통량 데이터 레이어링.png)
 
 

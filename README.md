@@ -148,7 +148,6 @@ def mclp_with_pulp(points,P,S,sites,demand_weight):
 ## (4) 모델검증 및 분석
 - 독립변수에 따른 모델 출력결과를 분석하여, 본 프로젝트 상에서 최대한 많은 변수를 사용하여 모델을 실행하는 것이 가장 좋은 결과를 냄을 검증함
 <img width="600" height="500" alt="Image" src="https://github.com/user-attachments/assets/7d9c823a-bad9-403f-8839-0e9e7e54d8fd" />
-
 <br>
 
 - 가장 효율적인 최적입지 선정개수를 알기 위해 입지개수에 따른 모델 결과수치를 분석함
@@ -171,7 +170,6 @@ def mclp_with_pulp(points,P,S,sites,demand_weight):
 <**ER Diagram**>
 
 <img width="500" height="370" alt="Image" src="https://github.com/user-attachments/assets/adafd384-2c5a-4d27-9b10-fdf9e126d3a4" />
-
 <br>
 
 <**Relational DB schema**>

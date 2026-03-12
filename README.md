@@ -93,4 +93,50 @@ for i, j in zip(df_t['XCODE'], df_t['YCODE']):
 mymap
 ```
 <시각화 출력결과 예시>
-<img width="889" height="438" alt="Image" src="https://github.com/user-attachments/assets/b5a6180a-d7e1-41eb-8714-23d4cd5ac6e4" />
+<img width="500" height="250" alt="Image" src="https://github.com/user-attachments/assets/b5a6180a-d7e1-41eb-8714-23d4cd5ac6e4" />
+
+## (3) 최적입지 선정 모델 구현 - MCLP(Maximal Covering Location Problem) 알고리즘 사용 : 제한된 시설물의 개수로 수요량을 최대화하는 입지를 선정하는 알고리즘
+<br>
+
+<코드 일부예시>
+```python
+def mclp_with_pulp(points,P,S,sites,demand_weight):
+    print('----- Configurations -----')
+    print('  I %g' % points.shape[0])
+    print('  P %g' % P)
+    print('  S %g' % S)
+
+    J = sites.shape[0] #후보지 배열의 행의 개수를 불러옴 = 후보지의 개수
+    I = points.shape[0] #수요지 배열의 행의 개수를 불러옴 = 수요지의 개수
+
+    coverage_matrix = np.zeros((I,J))
+    for i in range(I):
+        for j in range(J):
+            coverage_matrix[i,j] = geodesic(points[i],sites[j]).km #수요지와 후보지 간의 거리 계산
+
+    coverage_matrix = (coverage_matrix <= S).astype(int)
+
+    #모델 정의 : LpProblem을 사용해 최대화 문제를 정의, 목표는 커버된 수요지의 가중치 합을 최대화 하는 것
+    model = LpProblem(name="MCLP", sense=LpMaximize)
+
+    # Add variables
+    x = [LpVariable(f"x{j}", cat="Binary") for j in range(J)] #후보지 j가 선택되었는지 여부를 나타내는 이진변수
+    y = [LpVariable(f"y{i}", cat="Binary") for i in range(I)] #수요지 i가 커버되었는지 여부를 나타내는 이진변수
+
+    # 목적함수
+    model += lpSum(demand_weight[i] * y[i] for i in range(I))
+
+    # 제약조건
+    model += lpSum(x) == P # K개의 후보지를 선택하는 제약
+
+    model.solve()
+```
+- 수요를 최대화하는 20개의 최적입지가 위/경도로 출력됨
+
+## (4) 모델검증 및 분석
+- 독립변수에 따른 모델 출력결과를 분석하여 본 프로젝트 상에서 최대한 많은 변수를 사용하여 모델을 실행하는 것이 가장 좋은 결과를 냄 검증함
+<img width="600" height="500" alt="Image" src="https://github.com/user-attachments/assets/7d9c823a-bad9-403f-8839-0e9e7e54d8fd" /> 
+
+- 가장 효율적인 최적입지 선정개수를 알기 위해 입지개수에 따른 모델 결과수치를 분석함
+<img width="800" height="500" alt="Image" src="https://github.com/user-attachments/assets/69ab5c29-aab8-4716-be6f-cbe0ce6b898f" />
+

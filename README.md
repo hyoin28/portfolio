@@ -136,5 +136,5 @@ def mclp_with_pulp(points,P,S,sites,demand_weight):
 <img width="600" height="500" alt="Image" src="https://github.com/user-attachments/assets/7d9c823a-bad9-403f-8839-0e9e7e54d8fd" /> 
 
 - 가장 효율적인 최적입지 선정개수를 알기 위해 입지개수에 따른 모델 결과수치를 분석함
-<img width="400" height="250" alt="Image" src="https://github.com/user-attachments/assets/69ab5c29-aab8-4716-be6f-cbe0ce6b898f" />
+<img width="600" height="450" alt="Image" src="https://github.com/user-attachments/assets/69ab5c29-aab8-4716-be6f-cbe0ce6b898f" />
 

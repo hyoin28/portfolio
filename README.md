@@ -93,5 +93,4 @@ for i, j in zip(df_t['XCODE'], df_t['YCODE']):
 mymap
 ```
 <시각화 출력결과 예시>
-![image](img/충전소위치&교통량 데이터 레이어링.png)
-
+<img width="889" height="438" alt="Image" src="https://github.com/user-attachments/assets/b5a6180a-d7e1-41eb-8714-23d4cd5ac6e4" />

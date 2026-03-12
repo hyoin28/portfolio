@@ -15,7 +15,6 @@ Python, SQL을 활용한 다양한 프로젝트 경험을 기반으로 데이터
 
 ## (1) 데이터 가공 및 정제
 - 필요한 데이터만 추출하기 위해 pandas의 여러 메서드 사용
-<br>
 
 <코드 일부예시>
 ```python
@@ -34,7 +33,6 @@ df_y = pd.concat([df_y, df_l], axis=1)
 df_y_grouped = df_y.groupby('충전소명')[['2023년 01월 충전횟수', '2023년 01월 충전량', '2023년 02월 충전횟수', '2023년 02월 충전량', '2023년 03월 충전횟수', '2023년 03월 충전량', '2023년 04월 충전횟수', '2023년 04월 충전량', '2023년 05월 충전횟수', '2023년 05월 충전량', '2023년 06월 충전횟수', '2023년 06월 충전량', '2023년 07월 충전횟수', '2023년 07월 충전량', '2023년 08월 충전횟수', '2023년 08월 충전량', '2023년 09월 충전횟수', '2023년 09월 충전량']].sum()
 ```
 - 데이터 가공을 위해 haversine 공식 사용
-<br>
 
 <코드 일부예시>
 ```python
@@ -75,7 +73,6 @@ df_total_finall = pd.DataFrame(df_total_scaled, index=df_total.index, columns=df
 ```
 ## (2) 데이터 유효성 검증을 위한 시각화
 - folium 라이브러리를 사용해 여러 데이터를 지도에 레이어링하여 표시함
-<br>
 
 <코드 일부예시>
 ```python
@@ -93,6 +90,7 @@ for i, j in zip(df_t['XCODE'], df_t['YCODE']):
 mymap
 ```
 <시각화 출력결과 예시>
+
 <img width="500" height="250" alt="Image" src="https://github.com/user-attachments/assets/b5a6180a-d7e1-41eb-8714-23d4cd5ac6e4" />
 
 ## (3) 최적입지 선정 모델 구현 - MCLP(Maximal Covering Location Problem) 알고리즘 사용 : 제한된 시설물의 개수로 수요량을 최대화하는 입지를 선정하는 알고리즘
@@ -138,5 +136,5 @@ def mclp_with_pulp(points,P,S,sites,demand_weight):
 <img width="600" height="500" alt="Image" src="https://github.com/user-attachments/assets/7d9c823a-bad9-403f-8839-0e9e7e54d8fd" /> 
 
 - 가장 효율적인 최적입지 선정개수를 알기 위해 입지개수에 따른 모델 결과수치를 분석함
-<img width="800" height="500" alt="Image" src="https://github.com/user-attachments/assets/69ab5c29-aab8-4716-be6f-cbe0ce6b898f" />
+<img width="400" height="250" alt="Image" src="https://github.com/user-attachments/assets/69ab5c29-aab8-4716-be6f-cbe0ce6b898f" />
 

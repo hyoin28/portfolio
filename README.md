@@ -4,8 +4,11 @@ Python, SQL을 활용한 다양한 프로젝트 경험을 기반으로 데이터
 
 # 📌 My Skill
 ✔️ **Programming Language** : Python, SQL
+
 ✔️ **RDBMS** : MySQL
+
 ✔️ **Library** : pandas, numpy, sklearn, folium, pytorch, selenium 등
+
 ✔️ **커뮤니케이션 및 협업 능력** : 다양한 팀프로젝트에서 항상 책임감있고 열려있는 태도로 프로젝트를 이끄는 리더의 면모를 성장시켜왔습니다.
 
 # 💡 Project 1

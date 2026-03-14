@@ -80,7 +80,8 @@ for coord1 in coordinates_1:
 <br>
 
 - 가공한 데이터를 **StandardScaler**로 표준화
-```python 
+```python
+from sklearn.preprocessing import StandardScaler 
 scaler = StandardScaler()
 df_total_scaled = scaler.fit_transform(df_total)
 df_total_finall = pd.DataFrame(df_total_scaled, index=df_total.index, columns=df_total.columns)

@@ -79,7 +79,7 @@ for coord1 in coordinates_1:
 ```
 <br>
 
-- 가공한 데이터를 **StandardScaler()**로 표준화
+- 가공한 데이터를 **StandardScaler**로 표준화
 ```python 
 scaler = StandardScaler()
 df_total_scaled = scaler.fit_transform(df_total)

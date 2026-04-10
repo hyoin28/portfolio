@@ -429,5 +429,10 @@ ORDER BY genre_count DESC;
 - '애니메이션' 장르 선호도가 높다는 것을 더 정확히 입증하기 위해 현재상영작 top10에서 장르별 개수를 출력하는 쿼리를 작성함
 - '애니메이션' 장르가 4개로 가장 많은 것을 확인할 수 있음
 
+## (5) 대시보드 만들기
+- 분석결과를 시각적으로 보기 위해 Tableau를 사용해 대시보드 제작
+
+<img width="1657" height="851" alt="Image" src="https://github.com/user-attachments/assets/434bfc73-3abe-4754-b5b0-44016d1f8d39" />
+
 
 

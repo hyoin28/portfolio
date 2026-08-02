@@ -1,6 +1,17 @@
 # 🗒️ 박효인의 portfolio 입니다.
 # 📌 Intro
-Python, SQL을 활용한 다양한 프로젝트 경험을 기반으로 데이터 엔지니어링과 데이터 분석 역량을 길러왔습니다. 데이터 수집 및 전처리, 구조화하는 데이터파이프라인을 기반으로 분석에 활용 가능한 데이터를 마련하여 의사결정에 도움을 주는 일에 관심이 있습니다. 데이터 기반으로 직접 의사결정을 해 기업의 성장에 기여하고 싶은 마음 또한 가지고 있습니다. 이 GitHub에는 제가 지금까지 수행한 데이터처리, 분석, 모델링 등과 관련된 코드들을 정리하고 있습니다.
+Python, SQL을 활용한 다양한 프로젝트 경험을 기반으로 데이터 엔지니어링과 데이터 분석 역량을 길러왔습니다. 데이터 수집 및 전처리, 구조화하는 데이터파이프라인을 기반으로 분석에 활용 가능한 데이터를 마련하여 의사결정에 도움을 주는 일에 관심이 있습니다. 또한 데이터 기반 의사결정을 통해 기업 성장에 기여하는 것에 흥미를 가지고 있습니다. 이 GitHub에는 제가 지금까지 수행한 데이터처리, 분석, 모델링 등과 관련된 프로젝트 코드들이 정리되어 있습니다.
+
+# 📌 My Skill
+✔️ **Programming Language** : Python, SQL
+
+✔️ **RDBMS** : MySQL
+
+✔️ **Library** : pandas, numpy, sklearn, folium, pytorch, selenium 등
+
+✔️ **시각화** : Tableau
+
+✔️ **커뮤니케이션 및 협업 능력** : 다양한 팀프로젝트에서 항상 책임감있고 열려있는 태도로 프로젝트를 이끄는 리더의 면모를 성장시켜왔습니다.
 
 # 💡 Project 1
 - **프로젝트명** : 제주시 전기차 충전소 최적입지 선정모델
@@ -33,6 +44,8 @@ df_y = pd.concat([df_y, df_l], axis=1)
 #충전소명이 겹치는 건 그룹화해서 충전횟수, 충전량 값 합치기
 df_y_grouped = df_y.groupby('충전소명')[['2023년 01월 충전횟수', '2023년 01월 충전량', '2023년 02월 충전횟수', '2023년 02월 충전량', '2023년 03월 충전횟수', '2023년 03월 충전량', '2023년 04월 충전횟수', '2023년 04월 충전량', '2023년 05월 충전횟수', '2023년 05월 충전량', '2023년 06월 충전횟수', '2023년 06월 충전량', '2023년 07월 충전횟수', '2023년 07월 충전량', '2023년 08월 충전횟수', '2023년 08월 충전량', '2023년 09월 충전횟수', '2023년 09월 충전량']].sum()
 ```
+<br>
+
 - 데이터 가공을 위해 **haversine 공식** 사용
 
 <코드 일부예시>
@@ -66,8 +79,11 @@ for coord1 in coordinates_1:
         if haversine(coord1, coord2) <= threshold: #두 좌표의 거리가 5km 이하이면 좌표 추가
             close_coordinates.append((coord1, coord2))
 ```
-- 가공한 데이터를 **StandardScaler()**로 표준화
-```python 
+<br>
+
+- 가공한 데이터를 **StandardScaler**로 표준화
+```python
+from sklearn.preprocessing import StandardScaler 
 scaler = StandardScaler()
 df_total_scaled = scaler.fit_transform(df_total)
 df_total_finall = pd.DataFrame(df_total_scaled, index=df_total.index, columns=df_total.columns)
@@ -90,7 +106,7 @@ for i, j in zip(df_t['XCODE'], df_t['YCODE']):
 
 mymap
 ```
-<시각화 출력결과 예시>
+<시각화 출력결과 예시> - 전기차 충전소의 위치(검은색 점)와 교통량(히트맵)이 레이어링돼 표시된 모습
 
 <img width="500" height="250" alt="Image" src="https://github.com/user-attachments/assets/b5a6180a-d7e1-41eb-8714-23d4cd5ac6e4" />
 
@@ -133,8 +149,8 @@ def mclp_with_pulp(points,P,S,sites,demand_weight):
 - 수요를 최대화하는 20개의 최적입지가 위/경도로 출력됨
 
 ## (4) 모델검증 및 분석
-- 독립변수에 따른 모델 출력결과를 분석하여 본 프로젝트 상에서 최대한 많은 변수를 사용하여 모델을 실행하는 것이 가장 좋은 결과를 냄 검증함
-<img width="600" height="500" alt="Image" src="https://github.com/user-attachments/assets/7d9c823a-bad9-403f-8839-0e9e7e54d8fd" /> 
+- 독립변수에 따른 모델 출력결과를 분석하여, 본 프로젝트 상에서 최대한 많은 변수를 사용하여 모델을 실행하는 것이 가장 좋은 결과를 냄을 검증함
+<img width="600" height="500" alt="Image" src="https://github.com/user-attachments/assets/7d9c823a-bad9-403f-8839-0e9e7e54d8fd" />
 
 - 가장 효율적인 최적입지 선정개수를 알기 위해 입지개수에 따른 모델 결과수치를 분석함
 <img width="600" height="450" alt="Image" src="https://github.com/user-attachments/assets/69ab5c29-aab8-4716-be6f-cbe0ce6b898f" />
@@ -293,7 +309,7 @@ query = '''
 data = [] #데이터들을 담을 빈 리스트 생성
 
 for i in range(m_count) :
-    boxes = driver.find_elements(By.CLASS_NAME, 'bestChartList_chartItem__bJ0PK')  #각 영화의 정보를 담고있는 박스들(35개의 박스들)
+    boxes = driver.find_elements(By.CLASS_NAME, 'bestChartList_chartItem__bJ0PK')  #각 영화의 정보를 담고있는 박스들(46개의 박스들)
     box = boxes[i] #각 영화 박스
     btn = box.find_element(By.CSS_SELECTOR, 'button.btn.btn-md.line-gray') #box안의 '상세보기' 버튼 찾기
     driver.execute_script(
@@ -415,9 +431,17 @@ ORDER BY genre_count DESC;
 - '애니메이션' 장르 선호도가 높다는 것을 더 정확히 입증하기 위해 현재상영작 top10에서 장르별 개수를 출력하는 쿼리를 작성함
 - '애니메이션' 장르가 4개로 가장 많은 것을 확인할 수 있음
 
+<<<<<<< HEAD
 ## (5) 대시보드 만들기
 - 분석결과를 시각적으로 보기 위해 Tableau를 사용해 대시보드 제작
 
 <img width="1657" height="851" alt="Image" src="https://github.com/user-attachments/assets/434bfc73-3abe-4754-b5b0-44016d1f8d39" />
+=======
+## (5) 대시보드 제작
+- 분석결과를 시각화하기 위해 Tableau를 활용
+
+<img width="1657" height="851" alt="Image" src="https://github.com/user-attachments/assets/434bfc73-3abe-4754-b5b0-44016d1f8d39" />
+
+>>>>>>> 3ebbfe04593451e5211a96f8e77f24b7a2df523c
 
 
